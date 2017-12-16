@@ -203,8 +203,22 @@ sqldf("select * from activityWoNA where realSteps IS NULL LIMIT 6")
 
 
 
-3) Create a new dataset that is equal to the original dataset but with the missing data filled in.
+3) Create a new dataset "activityWoNA" that is equal to the original dataset but with the missing data filled in.
 Make a histogram of the total number of steps taken each day 
+
+```r
+head(activityWoNA)
+```
+
+```
+##   realSteps steps       date interval
+## 1        NA     1 2012-10-01        0
+## 2        NA     0 2012-10-01        5
+## 3        NA     0 2012-10-01       10
+## 4        NA     0 2012-10-01       15
+## 5        NA     0 2012-10-01       20
+## 6        NA     2 2012-10-01       25
+```
 
 ```r
 stepsByDayImp <-sqldf("select date, sum(steps) sumSteps  from activityWoNA group by date")
@@ -285,7 +299,7 @@ plot(weekendInterval$interval, weekendInterval$avgSteps,type="l", main="Avg Step
 ![](PA1_template_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 
-**Weekend vs Weekday walking patterns seem to indicate that weekend walking is more steady during the intervals while there are definte peaks of walking during weekedays**
+*Weekend vs Weekday walking patterns seem to indicate that weekend walking is more steady during the intervals while there are definte peaks of walking during weekedays*
 
 
 
