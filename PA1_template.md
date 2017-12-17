@@ -302,17 +302,6 @@ qplot(interval, avgSteps, data=dayInterval,
 
 ![](PA1_template_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
-```r
-#par(mfrow=c(2,1))
-#plot(weekendInterval$interval, weekendInterval$avgSteps,type="l", main="Weekend Avg Steps Per 5 Min #Time Interval", xlab="Time Interval", ylab="Avg Steps",col="red", ylim=c(0,250))
-#grid(NULL,NULL,col="lightgrey",lty="dotted")
-
-#plot(weekdayInterval$interval, weekdayInterval$avgSteps,type="l", col="blue", lty=2, main="Weekday Avg #Steps per 5 Min Time Interval", xlab="Time Interval", ylab="Avg Steps", ylim=c(0,250))
-#grid(NULL,NULL,col="lightgrey",lty="dotted")
-  
-  #legend(0,350, legend=c("Weekend", "Weekday"), col=c("red", "blue"), lty=1:2 )
-```
-
 
 *Weekend vs Weekday walking patterns seem to indicate that weekend walking is more steady during the intervals while there are definte peaks of walking during weekedays*
 
