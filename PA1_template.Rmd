@@ -113,13 +113,27 @@ median(stepsByDayImp$sumSteps)
 ```{r}
 activityWoNA$wd <-weekdays(activityWoNA$date, abbreviate = TRUE)
 activityWoNA<-sqldf("select *, case when wd in ('Sat', 'Sun') then 1 else 0 end as isWeekend from activityWoNA")
+dayInterval<-sqldf("select CASE WHEN isWeekend = 1 then 'Weekend' else 'Weekday' end as day, interval, avg(steps) as avgSteps from activityWoNA group by CASE WHEN isWeekend = 1 then 'Weekend' else 'Weekday' end, interval")
 weekendInterval<-sqldf("select interval, avg(steps) as avgSteps from activityWoNA where isWeekend=1 group by interval")
 weekdayInterval<-sqldf("select interval, avg(steps) as avgSteps from activityWoNA where isWeekend = 0 group by interval")
 
-plot(weekendInterval$interval, weekendInterval$avgSteps,type="l", main="Avg Steps Per 5 Min Time Interval", xlab="Time Interval", ylab="Avg Steps",col="red", ylim=c(0,350))
-  lines(weekdayInterval$interval, weekdayInterval$avgSteps,type="l", col="blue", lty=2)
-  grid(NULL,NULL,col="lightgrey",lty="dotted")
-  legend(0,350, legend=c("Weekend", "Weekday"), col=c("red", "blue"), lty=1:2 )
+library(ggplot2)
+qplot(interval, avgSteps, data=dayInterval,
+      facets = day~.,col=day,
+      geom="line",
+      main="Average Steps per 5 Min Time Interval",
+      xlab = "Time Interval",
+      ylab = "Average Steps")
+
+
+#par(mfrow=c(2,1))
+#plot(weekendInterval$interval, weekendInterval$avgSteps,type="l", main="Weekend Avg Steps Per 5 Min #Time Interval", xlab="Time Interval", ylab="Avg Steps",col="red", ylim=c(0,250))
+#grid(NULL,NULL,col="lightgrey",lty="dotted")
+
+#plot(weekdayInterval$interval, weekdayInterval$avgSteps,type="l", col="blue", lty=2, main="Weekday Avg #Steps per 5 Min Time Interval", xlab="Time Interval", ylab="Avg Steps", ylim=c(0,250))
+#grid(NULL,NULL,col="lightgrey",lty="dotted")
+  
+  #legend(0,350, legend=c("Weekend", "Weekday"), col=c("red", "blue"), lty=1:2 )
 
 ```
 
