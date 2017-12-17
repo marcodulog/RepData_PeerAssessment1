@@ -105,7 +105,7 @@ head(stepsByDay)
 2) If you do not understand the difference between a histogram and a barplot, research the difference between them. Make a histogram of the total number of steps taken each day
 
 ```r
-hist(stepsByDay$sumSteps, main="Histogram of Steps Per Day", xlab="Steps Per Day", col="blue")
+hist(stepsByDay$sumSteps, main="Histogram of Steps Per Day", xlab="Steps Per Day", col="blue", breaks=25)
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
