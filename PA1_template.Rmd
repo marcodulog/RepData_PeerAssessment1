@@ -11,7 +11,7 @@ output:
 ## Loading and preprocessing the data
 Preprocessing will include setting the working directory, unzipping the file, loading the required libraries (I like using SQL) and reading the file into a dataset called $activity
 ```{r}
-setwd("d:/git/RepData_PeerAssessment1")
+setwd("C:/Users/Marco.Dulog/git/RepData_PeerAssessment1")
 unzip("activity.zip")
 require(sqldf)
 require(lubridate)
@@ -69,22 +69,21 @@ sqldf("select count(*) from activity where steps IS NULL")
 
 * create another dataset of activityWoNA 
 
+3) Create a new dataset "activityWoNA" that is equal to the original dataset but with the missing data filled in.
 
 ```{r}
-head(timeSeries)
 activityWoNA<-sqldf("select a.steps as realSteps, CASE WHEN a.steps is NULL THEN CAST(ts.avgSteps as Integer) ELSE a.steps END as steps, a.date, a.interval from activity a inner join timeSeries ts ON a.interval = ts.interval")
 sqldf("select * from activityWoNA where realSteps IS NULL LIMIT 6")
 ```
 
-
-
-3) Create a new dataset "activityWoNA" that is equal to the original dataset but with the missing data filled in.
 Make a histogram of the total number of steps taken each day 
 ```{r}
-head(activityWoNA)
 stepsByDayImp <-sqldf("select date, sum(steps) sumSteps  from activityWoNA group by date")
 stepsByDayImp<-transform(stepsByDayImp, sumSteps=as.numeric(sumSteps))
 head(stepsByDayImp)
+hist(stepsByDayImp$sumSteps, main="Histogram of Steps Per Day Imputed", xlab="Steps Per Day", col="orange", breaks=25)
+
+
 ```
 
 and calculate and report the mean and median total number of steps taken per day. 

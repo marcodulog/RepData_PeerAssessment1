@@ -1,11 +1,18 @@
-# Reproducible Research: Peer Assessment 1
+---
+title: "Reproducible Research: Peer Assessment 1"
+Name: Marco Dulog
+Date: 16 December 2017
+output: 
+  html_document:
+    keep_md: true
+--- 
 
 
 ## Loading and preprocessing the data
 Preprocessing will include setting the working directory, unzipping the file, loading the required libraries (I like using SQL) and reading the file into a dataset called $activity
 
 ```r
-setwd("d:/git/RepData_PeerAssessment1")
+setwd("C:/Users/Marco.Dulog/git/RepData_PeerAssessment1")
 unzip("activity.zip")
 require(sqldf)
 ```
@@ -51,6 +58,10 @@ require(dplyr)
 
 ```
 ## Loading required package: dplyr
+```
+
+```
+## Warning: package 'dplyr' was built under R version 3.4.3
 ```
 
 ```
@@ -170,21 +181,8 @@ sqldf("select count(*) from activity where steps IS NULL")
 
 * create another dataset of activityWoNA 
 
+3) Create a new dataset "activityWoNA" that is equal to the original dataset but with the missing data filled in.
 
-
-```r
-head(timeSeries)
-```
-
-```
-##   interval  avgSteps
-## 1        0 1.7169811
-## 2        5 0.3396226
-## 3       10 0.1320755
-## 4       15 0.1509434
-## 5       20 0.0754717
-## 6       25 2.0943396
-```
 
 ```r
 activityWoNA<-sqldf("select a.steps as realSteps, CASE WHEN a.steps is NULL THEN CAST(ts.avgSteps as Integer) ELSE a.steps END as steps, a.date, a.interval from activity a inner join timeSeries ts ON a.interval = ts.interval")
@@ -201,24 +199,7 @@ sqldf("select * from activityWoNA where realSteps IS NULL LIMIT 6")
 ## 6        NA     2 2012-10-01       25
 ```
 
-
-
-3) Create a new dataset "activityWoNA" that is equal to the original dataset but with the missing data filled in.
 Make a histogram of the total number of steps taken each day 
-
-```r
-head(activityWoNA)
-```
-
-```
-##   realSteps steps       date interval
-## 1        NA     1 2012-10-01        0
-## 2        NA     0 2012-10-01        5
-## 3        NA     0 2012-10-01       10
-## 4        NA     0 2012-10-01       15
-## 5        NA     0 2012-10-01       20
-## 6        NA     2 2012-10-01       25
-```
 
 ```r
 stepsByDayImp <-sqldf("select date, sum(steps) sumSteps  from activityWoNA group by date")
@@ -235,6 +216,12 @@ head(stepsByDayImp)
 ## 5 2012-10-05    13294
 ## 6 2012-10-06    15420
 ```
+
+```r
+hist(stepsByDayImp$sumSteps, main="Histogram of Steps Per Day Imputed", xlab="Steps Per Day", col="orange", breaks=25)
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 and calculate and report the mean and median total number of steps taken per day. 
 Do these values differ from the estimates from the first part of the assignment? 
